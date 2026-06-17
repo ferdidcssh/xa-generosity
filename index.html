@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>XA Generosity Memories</title>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Nunito:wght@400;600;700&family=Permanent+Marker&display=swap" rel="stylesheet"/>
+<style>
+  /* =============================================
+     DESIGN TOKENS
+     ============================================= */
+  :root {
+    --pink:    #9FA1FF;
+    --yellow:  #FFD93D;
+    --mint:    #6BCB77;
+    --sky:     #4ECDC4;
+    --peach:   #FF9A8B;
+    --lavender:#B8A9FF;
+    --cream:   #D9F9DF;
+    --paper:   #FFFDF7;
+    --tape:    rgba(255,217,61,0.55);
+    --shadow:  rgba(0,0,0,0.13);
+    --ink:     #2D2D2D;
+    --font-title: 'Permanent Marker', cursive;
+    --font-hand:  'Caveat', cursive;
+    --font-body:  'Nunito', sans-serif;
+  }
+
+  /* =============================================
+     RESET & BASE
+     ============================================= */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--cream);
+    background-image:
+      radial-gradient(circle at 15% 20%, rgba(255,107,157,0.08) 0%, transparent 50%),
+      radial-gradient(circle at 85% 70%, rgba(78,205,196,0.08) 0%, transparent 50%),
+      url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23FFD93D' fill-opacity='0.06'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    font-family: var(--font-body);
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  /* =============================================
+     HERO / COVER
+     ============================================= */
+  .cover {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px 20px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cover-deco {
+    position: absolute; pointer-events: none; font-size: 2rem; opacity: 0.18;
+  }
+  .cover-deco.d1 { top: 8%; left: 5%; font-size: 3rem; transform: rotate(-15deg); }
+  .cover-deco.d2 { top: 15%; right: 8%; font-size: 2.5rem; transform: rotate(10deg); }
+  .cover-deco.d3 { bottom: 20%; left: 10%; font-size: 2rem; transform: rotate(5deg); }
+  .cover-deco.d4 { bottom: 10%; right: 6%; font-size: 3rem; transform: rotate(-8deg); }
+  .cover-deco.d5 { top: 45%; left: 2%; font-size: 1.8rem; }
+  .cover-deco.d6 { top: 40%; right: 3%; font-size: 2rem; transform: rotate(20deg); }
+
+  .cover-label {
+    font-family: var(--font-hand);
+    font-size: 1.1rem;
+    color: var(--pink);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .cover-title {
+    font-family: var(--font-title);
+    font-size: clamp(2.8rem, 8vw, 5.5rem);
+    line-height: 1.1;
+    color: var(--ink);
+    margin-bottom: 10px;
+  }
+
+  .cover-title span { color: var(--pink); }
+
+  .cover-subtitle {
+    font-family: var(--font-hand);
+    font-size: clamp(1.3rem, 3vw, 1.8rem);
+    color: #777;
+    margin-bottom: 36px;
+  }
+
+  .tape-strip {
+    display: inline-block;
+    background: var(--tape);
+    padding: 4px 32px;
+    transform: rotate(-1.5deg);
+    font-family: var(--font-hand);
+    font-size: 1.1rem;
+    color: #888;
+    letter-spacing: 1px;
+    margin-bottom: 40px;
+  }
+
+  .scroll-hint {
+    font-family: var(--font-hand);
+    font-size: 1rem;
+    color: #aaa;
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+    animation: bounce 2s infinite;
+  }
+  .scroll-hint span { font-size: 1.5rem; }
+  @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(8px)} }
+
+  /* =============================================
+     SECTION WRAPPER
+     ============================================= */
+  .section {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 60px 20px;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 48px;
+    position: relative;
+  }
+
+  .section-eyebrow {
+    font-family: var(--font-hand);
+    font-size: 1rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #aaa;
+    margin-bottom: 6px;
+  }
+
+  .section-title {
+    font-family: var(--font-title);
+    font-size: clamp(2rem, 5vw, 3rem);
+    display: inline-block;
+    position: relative;
+  }
+
+  .section-title::after {
+    content: '';
+    display: block;
+    height: 4px;
+    border-radius: 2px;
+    margin-top: 4px;
+  }
+
+  /* =============================================
+     DIVIDER
+     ============================================= */
+  .divider {
+    text-align: center;
+    font-size: 1.6rem;
+    margin: 0;
+    padding: 10px 0;
+    opacity: 0.25;
+    letter-spacing: 12px;
+  }
+
+  /* =============================================
+     PART 1 — CLASS MOMENTS
+     ============================================= */
+  #moments .section-title { color: var(--pink); }
+  #moments .section-title::after { background: var(--pink); }
+
+  .moments-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 36px;
+  }
+
+  /* Polaroid card */
+  .polaroid {
+    background: #fff;
+    padding: 14px 14px 42px;
+    box-shadow: 3px 4px 18px var(--shadow), 0 1px 3px rgba(0,0,0,0.08);
+    position: relative;
+    cursor: default;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .polaroid:hover {
+    transform: scale(1.03) rotate(0deg) !important;
+    box-shadow: 6px 8px 28px rgba(0,0,0,0.18);
+    z-index: 2;
+  }
+
+  .polaroid-tape {
+    position: absolute;
+    top: -14px; left: 50%;
+    transform: translateX(-50%) rotate(-2deg);
+    width: 60px; height: 22px;
+    background: var(--tape);
+    border-radius: 2px;
+  }
+
+  .polaroid-photo {
+    width: 100%;
+    aspect-ratio: 4/3;
+    background: #e8e8e8;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 3.5rem;
+    overflow: hidden;
+  }
+
+  
+
+  /* lazy-load fade-in for real images */
+  .polaroid-photo img {
+    width: 100%; height: 100%;
+    object-fit: contain;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+  .polaroid-photo img.loaded { opacity: 1; }
+
+  .polaroid-caption {
+    position: absolute;
+    bottom: 8px; left: 0; right: 0;
+    text-align: center;
+    font-family: var(--font-hand);
+    font-size: 1.15rem;
+    color: #555;
+    padding: 0 8px;
+  }
+
+  
+
+  .polaroid-date {
+    position: absolute;
+    top: 8px; right: 10px;
+    font-family: var(--font-hand);
+    font-size: 0.82rem;
+    color: #bbb;
+  }
+
+  /* sticky note for description */
+  .sticky-note {
+    background: var(--yellow);
+    padding: 14px 16px;
+    font-family: var(--font-hand);
+    font-size: 1.05rem;
+    color: #555;
+    line-height: 1.5;
+    box-shadow: 2px 3px 10px rgba(0,0,0,0.1);
+    transform: rotate(1deg);
+    margin-top: 12px;
+  }
+
+  /* Load More */
+  .load-more-wrap {
+    text-align: center;
+    margin-top: 40px;
+  }
+  .btn-load-more {
+    font-family: var(--font-hand);
+    font-size: 1.2rem;
+    background: #fff;
+    border: 2.5px dashed var(--pink);
+    color: var(--pink);
+    padding: 12px 36px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, transform 0.15s;
+    letter-spacing: 1px;
+  }
+  .btn-load-more:hover {
+    background: var(--pink);
+    color: #fff;
+    transform: scale(1.05);
+  }
+  .btn-load-more:disabled {
+    border-color: #ddd;
+    color: #ccc;
+    cursor: default;
+    background: #fff;
+    transform: none;
+  }
+  .moments-counter {
+    font-family: var(--font-hand);
+    font-size: 0.95rem;
+    color: #bbb;
+    margin-top: 10px;
+  }
+  /* entry animation for newly loaded items */
+  @keyframes momentIn {
+    from { opacity: 0; transform: translateY(22px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .moment-enter {
+    animation: momentIn 0.4s ease forwards;
+  }
+
+  /* =============================================
+     PART 2 — BIRTHDAY BOARD
+     ============================================= */
+  #birthdays {
+    background: #1a1a2e;
+    border-radius: 20px;
+    padding: 50px 30px;
+    max-width: 980px;
+    margin: 0 auto 0;
+  }
+
+  #birthdays .section-header { margin-bottom: 36px; }
+
+  #birthdays .section-eyebrow { color: #aaa; }
+
+  #birthdays .section-title {
+    color: #fff;
+    font-family: var(--font-title);
+    font-size: clamp(2rem, 5vw, 3rem);
+  }
+  #birthdays .section-title::after { background: var(--yellow); }
+
+  .bday-board-wrap {
+    /* outer padding so board feels like a real board */
+    padding: 10px;
+  }
+
+  .bday-month-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 28px 16px;
+  }
+
+  .bday-month {
+    /* each month column */
+  }
+
+  .bday-month-label {
+    font-family: var(--font-title);
+    font-size: 1rem;
+    margin-bottom: 14px;
+    padding: 2px 10px;
+    display: inline-block;
+    border-radius: 4px;
+    color: #1a1a2e;
+  }
+
+  /* Colorful month label backgrounds */
+  .bday-month:nth-child(1)  .bday-month-label { background: #FF6B9D; }
+  .bday-month:nth-child(2)  .bday-month-label { background: #FFD93D; }
+  .bday-month:nth-child(3)  .bday-month-label { background: #6BCB77; }
+  .bday-month:nth-child(4)  .bday-month-label { background: #4ECDC4; }
+  .bday-month:nth-child(5)  .bday-month-label { background: #FF9A8B; }
+  .bday-month:nth-child(6)  .bday-month-label { background: #B8A9FF; }
+  .bday-month:nth-child(7)  .bday-month-label { background: #FF6B9D; }
+  .bday-month:nth-child(8)  .bday-month-label { background: #FFD93D; }
+  .bday-month:nth-child(9)  .bday-month-label { background: #6BCB77; }
+  .bday-month:nth-child(10) .bday-month-label { background: #4ECDC4; }
+  .bday-month:nth-child(11) .bday-month-label { background: #FF9A8B; }
+  .bday-month:nth-child(12) .bday-month-label { background: #B8A9FF; }
+
+  .bday-students {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .bday-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  .bday-card:hover { transform: scale(1.1); }
+
+  .bday-avatar {
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    background: #333;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.6rem;
+    border: 3px solid #fff;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .bday-info {
+    text-align: center;
+  }
+
+  .bday-name {
+    font-family: var(--font-hand);
+    font-size: 0.85rem;
+    color: #fff;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+
+  .bday-date {
+    font-family: var(--font-hand);
+    font-size: 0.75rem;
+    color: #aaa;
+  }
+
+  /* =============================================
+     BIRTHDAY MODAL
+     ============================================= */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.65);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .modal-overlay.open { display: flex; }
+
+  .modal-box {
+    background: #fff;
+    border-radius: 16px;
+    padding: 32px;
+    max-width: 500px;
+    width: 100%;
+    position: relative;
+    animation: popIn 0.3s ease;
+  }
+  @keyframes popIn {
+    from { transform: scale(0.8); opacity: 0; }
+    to   { transform: scale(1);   opacity: 1; }
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 14px; right: 18px;
+    background: none; border: none;
+    font-size: 1.5rem; cursor: pointer; color: #aaa;
+  }
+  .modal-close:hover { color: var(--pink); }
+
+  .modal-avatar {
+    width: 90px; height: 90px;
+    border-radius: 50%;
+    background: #e8e8e8;
+    font-size: 2.5rem;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 16px;
+    border: 4px solid var(--yellow);
+  }
+
+  .modal-name {
+    font-family: var(--font-title);
+    font-size: 1.8rem;
+    text-align: center;
+    color: var(--ink);
+  }
+
+  .modal-bday {
+    font-family: var(--font-hand);
+    font-size: 1.1rem;
+    text-align: center;
+    color: var(--pink);
+    margin-bottom: 20px;
+  }
+
+  .modal-photos {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+
+  .modal-photo-slot {
+    aspect-ratio: 1;
+    background: #f0f0f0;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.8rem;
+    color: #ccc;
+    font-family: var(--font-hand);
+    font-size: 0.75rem;
+    text-align: center;
+    color: #bbb;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .modal-photo-slot span { font-size: 1.6rem; }
+
+  /* =============================================
+     PART 3 — WISHES & MESSAGES
+     ============================================= */
+  #wishes .section-title { color: var(--sky); }
+  #wishes .section-title::after { background: var(--sky); }
+
+  .wishes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 24px;
+  }
+
+  .wish-card {
+    padding: 20px 18px 24px;
+    font-family: var(--font-hand);
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: #444;
+    box-shadow: 3px 4px 14px var(--shadow);
+    position: relative;
+    transition: transform 0.2s;
+    cursor: default;
+  }
+  .wish-card:hover { transform: translateY(-4px) rotate(0deg) !important; }
+
+  .wish-card:nth-child(1)  { background: #FFF3CC; transform: rotate(-1.5deg); }
+  .wish-card:nth-child(2)  { background: #FFE4EC; transform: rotate(1deg); }
+  .wish-card:nth-child(3)  { background: #D4F4DD; transform: rotate(-0.5deg); }
+  .wish-card:nth-child(4)  { background: #E8E0FF; transform: rotate(1.5deg); }
+  .wish-card:nth-child(5)  { background: #FFE8D9; transform: rotate(-1deg); }
+  .wish-card:nth-child(6)  { background: #D9F0FF; transform: rotate(0.5deg); }
+  .wish-card:nth-child(7)  { background: #FFF3CC; transform: rotate(-1.2deg); }
+  .wish-card:nth-child(8)  { background: #FFE4EC; transform: rotate(1.8deg); }
+
+  .wish-from {
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+    color: #333;
+  }
+
+  .wish-pin {
+    position: absolute;
+    top: -10px; left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.3rem;
+  }
+
+  /* =============================================
+     FOOTER
+     ============================================= */
+  footer {
+    text-align: center;
+    padding: 40px 20px;
+    font-family: var(--font-hand);
+    font-size: 1rem;
+    color: #bbb;
+  }
+
+  footer .footer-big {
+    font-family: var(--font-title);
+    font-size: 2rem;
+    color: var(--pink);
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  /* =============================================
+     SECTION SEPARATORS (decorative wavy lines)
+     ============================================= */
+  .wavy-sep {
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    margin: 0;
+  }
+  .wavy-sep svg { display: block; }
+
+  /* =============================================
+     SCROLL REVEAL
+     ============================================= */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.55s ease, transform 0.55s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* =============================================
+     RESPONSIVE
+     ============================================= */
+  @media (max-width: 600px) {
+    .bday-month-grid { grid-template-columns: repeat(2, 1fr); }
+    .moments-grid { grid-template-columns: 1fr; }
+    .wishes-grid { grid-template-columns: 1fr 1fr; }
+    #birthdays { padding: 30px 16px; border-radius: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ================================================
+     COVER
+     ================================================ -->
+<section class="cover">
+  <div class="cover-deco d1">🌸</div>
+  <div class="cover-deco d2">⭐</div>
+  <div class="cover-deco d3">🎈</div>
+  <div class="cover-deco d4">🌈</div>
+  <div class="cover-deco d5">💫</div>
+  <div class="cover-deco d6">🎀</div>
+
+  <p class="cover-label">2025-2026</p>
+  <h1 class="cover-title">Class of <span>XA Generosity</span></h1>
+  <p class="cover-subtitle">Farewell Scrapbook</p>
+  <div class="tape-strip">22 students · one unforgettable year</div>
+
+  <div class="scroll-hint">
+    scroll down to relive the memories
+    <span>↓</span>
+  </div>
+</section>
+
+
+<!-- ================================================
+     PART 1 — CLASS MOMENTS
+     ================================================ -->
+<div class="section" id="moments">
+  <div class="section-header reveal">
+    <p class="section-eyebrow">Part One</p>
+    <h2 class="section-title">Class Moments </h2>
+  </div>
+
+  <!-- Moments render here via JS -->
+  <div class="moments-grid" id="momentsGrid"></div>
+
+  <!-- Load More -->
+  <div class="load-more-wrap">
+    <button class="btn-load-more" id="btnLoadMore" onclick="loadMoreMoments()">
+      + Load More Memories 
+    </button>
+    <div class="moments-counter" id="momentsCounter"></div>
+  </div>
+</div><!-- /section #moments -->
+
+
+<!-- ================================================
+     PART 2 — BIRTHDAY BOARD
+     ================================================ -->
+<div style="max-width:980px; margin:0 auto; padding:0 20px 60px;">
+<section id="birthdays" class="reveal">
+  <div class="section-header">
+    <p class="section-eyebrow">Part Two</p>
+    <h2 class="section-title">Birthday Board 🎂</h2>
+    <p style="color:#aaa; font-family:var(--font-hand); margin-top:8px; font-size:1rem;">
+      Click on a classmate to see their birthday memories!
+    </p>
+  </div>
+
+  <div class="bday-board-wrap">
+    <div class="bday-month-grid" id="bdayGrid">
+      <!-- JS renders months here -->
+    </div>
+  </div>
+</section>
+</div><!-- /birthday board wrapper -->
+
+
+<!-- ================================================
+     PART 3 — WISHES & MESSAGES
+     ================================================ -->
+<div class="section" id="wishes">
+  <div class="section-header reveal">
+    <p class="section-eyebrow">Part Three</p>
+    <h2 class="section-title">Wishes & Messages 💌</h2>
+  </div>
+
+  <div class="wishes-grid">
+
+    <!-- ==========================================
+         HOW TO ADD A WISH:
+         Copy one .wish-card block, change:
+           - .wish-from (name)
+           - paragraph text (message)
+           - .wish-pin emoji (optional)
+         ========================================== -->
+
+    <div class="wish-card reveal">
+      <div class="wish-pin">📌</div>
+      <p class="wish-from">Student 1</p>
+      <p>This class changed me in ways I didn't expect. Thank you for the laughter, the chaos, and all the memories. I'll miss every single one of you! 🥺</p>
+    </div>
+
+    <div class="wish-card reveal">
+      <div class="wish-pin">📌</div>
+      <p class="wish-from">Student 2</p>
+      <p>To my classmates — you guys made every boring day feel like an adventure. I hope our paths cross again someday. Keep shining! ✨</p>
+    </div>
+
+    <div class="wish-card reveal">
+      <div class="wish-pin">📌</div>
+      <p class="wish-from">Student 3</p>
+      <p>I never thought I'd cry at a school farewell, but here we are. Best class ever, no debate. Go chase your dreams! 🌟</p>
+    </div>
+
+    <div class="wish-card reveal">
+      <div class="wish-pin">📌</div>
+      <p class="wish-from">Student 4</p>
+      <p>From potluck to Christmas parties — every moment was gold. Thank you for being my people. See you at the top! 🚀</p>
+    </div>
+
+    <div class="wish-card reveal">
+      <div class="wish-pin">📌</div>
+      <p class="wish-from">Student 5</p>
+      <p>I came into this class not knowing anyone. I'm leaving with people I'd call family. That's the most precious gift. 💛</p>
+    </div>
+
+    <div class="wish-card reveal">
+      <div class="wish-pin">📌</div>
+      <p class="wish-from">Student 6</p>
+      <p>Wherever life takes us, I'll always look back at this year with the biggest smile. Thank you, DAB! 💖</p>
+    </div>
+
+    <div class="wish-card reveal">
+      <div class="wish-pin">📌</div>
+      <p class="wish-from">Student 7</p>
+      <p>The noise, the jokes, the drama — I'd relive every second of it. You guys are my heart. Stay awesome! 🎉</p>
+    </div>
+
+    <div class="wish-card reveal">
+      <div class="wish-pin">📌</div>
+      <p class="wish-from">Student 8</p>
+      <p>Not goodbye, just see you later. This class will always have a special place in my heart. Love you all! 🌈</p>
+    </div>
+
+  </div><!-- /wishes-grid -->
+</div><!-- /section #wishes -->
+
+
+<!-- ================================================
+     FOOTER
+     ================================================ -->
+<footer>
+  <span class="footer-big">XA Generosity</span>
+  2025-2026
+</footer>
+
+
+<!-- ================================================
+     BIRTHDAY MODAL
+     ================================================ -->
+<div class="modal-overlay" id="bdayModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-avatar" id="modalAvatar">🎂</div>
+    <div class="modal-name" id="modalName">Name</div>
+    <div class="modal-bday" id="modalBday">🎉 Birthday · Date</div>
+    <div class="modal-photos" id="modalPhotos"></div>
+  </div>
+</div>
+
+
+<!-- ================================================
+     JAVASCRIPT
+     ================================================ -->
+<script>
+/* ============================================================
+   PART 1 — CLASS MOMENTS DATA
+   HOW TO ADD A NEW MOMENT:
+   Add a new object to the MOMENTS array below.
+   Fields:
+     emoji     — shown as photo placeholder (e.g. "🎄")
+     photoBg   — pastel hex for the photo background
+     date      — label shown on polaroid corner (e.g. "Dec 2024")
+     caption   — event name shown at bottom of polaroid
+     stickyBg  — hex for sticky note background (optional)
+     note      — text inside the sticky note
+     image     — (optional) URL to a real photo; replaces emoji placeholder
+   ============================================================ */
+const MOMENTS = [
+  {
+    emoji:    "🏫",
+    photoBg:  "#FFE4EC",
+    date:     "Day 1",
+    caption:  "First Day of School",
+    stickyBg: "#FFF3CC",
+    note:     "📝 The day it all began! perkenalan agak awkward, ganti ruang kelas & berubah dari 'XB' jadi 'XA' ",
+    image:    "img/firstdayschool.jpg",
+  },
+  {
+    emoji:    "🎄",
+    photoBg:  "#D4F4DD",
+    date:     "Dec 2024",
+    caption:  "Christmas Celebration",
+    stickyBg: "#FFE4EC",
+    note:     "Potluck Christmas.. Hayo, masih inget siapa yg dapet oreo campur mayonaise? 🤢",
+    image : "img/christmas.jpg",
+  },
+  {
+    emoji:    "🏆",
+    photoBg:  "#FFF3CC",
+    date:     "Sports Day",
+    caption:  "Perform dance classmeet",
+    stickyBg: "#D4F4DD",
+    note:     "Potret persiapan tim dance XA.. pada nangis & berdoa (se ambis itu) 🙄",
+    image: "img/performclassmeet.jpg"
+  },
+  {
+    emoji:    "🏆",
+    photoBg:  "#FFF3CC",
+    date:     "Sports Day",
+    caption:  "Class Meeting",
+    stickyBg: "#D4F4DD",
+    note:     "Classmeet 2025, ini foto 5 menit sebelum di guyur air Mr Ferdi dari pantry teacher 😂",
+    image: "img/classmeet.jpg"
+  },
+  {
+    emoji:    "🏆",
+    photoBg:  "#FFF3CC",
+    date:     "Outing Class Geo",
+    caption:  "OTW Outing Class",
+    stickyBg: "#D4F4DD",
+    note:     "naik grab bareng ke planetarium UIN 🚕",
+    image: "img/otwoutingclass.jpg"
+  },
+  {
+    emoji:    "🏆",
+    photoBg:  "#FFF3CC",
+    date:     "Outing Class OJK",
+    caption:  "Outing Class OJK",
+    stickyBg: "#D4F4DD",
+    note:     "ingatt... jangan pinjol guyss 💸",
+    image: "img/outingojk.jpg"
+  },
+  {
+    emoji:    "💝",
+    photoBg:  "#FFE0D9",
+    date:     "Feb 14",
+    caption:  "Valentine's Day",
+    stickyBg: "#E8E0FF",
+    note:     "Valday paling so sweet buat Mr Ferdi..  feat richelle yg acting mimisan",
+    image: "img/valday.jpg" 
+  },
+  {
+    emoji:    "🍱",
+    photoBg:  "#E8E0FF",
+    date:     "Feast Day",
+    caption:  "Potluck Party",
+    stickyBg: "#FFE8D9",
+    note:     "Potluck terakhir.. ada yg ga kebagian ayam nih, kabarnya richelle masih mencari siapa yang ngambil 2 ayam 👀",
+    image: "img/lastpotluck.jpg"
+  },
+  /* ── ADD MORE MOMENTS BELOW THIS LINE ──────────────────────
+  {
+    emoji:    "🎭",
+    photoBg:  "#D9F0FF",
+    date:     "Apr 2025",
+    caption:  "Drama Night",
+    stickyBg: "#FFF3CC",
+    note:     "🎭 Lights, camera, chaos! Write your note here.",
+  },
+  ─────────────────────────────────────────────────────────── */
+];
+
+/* How many moments to show per "page" — change freely */
+const MOMENTS_PER_PAGE = 5;
+let momentsShown = 0;
+
+/* Rotation cycles so each polaroid tilts a little differently */
+const ROTATIONS       = [-2, 1.5, -1, 2, -1.5, 0.8, -0.5, 1.2, -1.8, 0.5];
+const STICKY_ROTS     = [-0.5, 1, -1.5, 0.8, -1, 1.3, -0.3, 0.9, -1.2, 0.4];
+
+/* Lazy-load observer for real images */
+const lazyObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    const img = entry.target;
+    img.src = img.dataset.src;
+    img.onload = () => img.classList.add('loaded');
+    lazyObserver.unobserve(img);
+  });
+}, { rootMargin: '200px' });
+
+/* Render a single moment (polaroid + sticky note) into the grid */
+function renderMoment(moment, index, animate) {
+  const grid = document.getElementById('momentsGrid');
+  const rot  = ROTATIONS[index % ROTATIONS.length];
+  const sRot = STICKY_ROTS[index % STICKY_ROTS.length];
+
+  /* polaroid */
+  const polaroid = document.createElement('div');
+  polaroid.className = 'polaroid' + (animate ? ' moment-enter' : '');
+  polaroid.style.transform = `rotate(${rot}deg)`;
+
+  const photoContent = moment.image
+    ? `<img data-src="${moment.image}" alt="${moment.caption}" class="lazy-img"/>`
+    : moment.emoji;
+
+  polaroid.innerHTML = `
+    <div class="polaroid-tape"></div>
+    <div class="polaroid-photo" style="background:${moment.photoBg}">${photoContent}</div>
+    <span class="polaroid-date">${moment.date}</span>
+    <div class="polaroid-caption">${moment.caption}</div>
+  `;
+
+  /* sticky note */
+  const sticky = document.createElement('div');
+  sticky.className = 'sticky-note' + (animate ? ' moment-enter' : '');
+  sticky.style.background = moment.stickyBg || '#FFF3CC';
+  sticky.style.transform  = `rotate(${sRot}deg)`;
+  if (animate) sticky.style.animationDelay = '0.08s';
+  sticky.textContent = moment.note;
+
+  grid.appendChild(polaroid);
+  grid.appendChild(sticky);
+
+  /* register lazy images */
+  if (moment.image) {
+    lazyObserver.observe(polaroid.querySelector('.lazy-img'));
+  }
+}
+
+/* Load next batch of moments */
+function loadMoreMoments() {
+  const start   = momentsShown;
+  const end     = Math.min(momentsShown + MOMENTS_PER_PAGE, MOMENTS.length);
+  const isFirst = start === 0;
+
+  for (let i = start; i < end; i++) {
+    renderMoment(MOMENTS[i], i, !isFirst);
+  }
+  momentsShown = end;
+  updateLoadMoreBtn();
+
+  /* reveal newly added items */
+  document.querySelectorAll('.moment-enter').forEach(el => revealObserver.observe(el));
+}
+
+function updateLoadMoreBtn() {
+  const btn       = document.getElementById('btnLoadMore');
+  const counter   = document.getElementById('momentsCounter');
+  const remaining = MOMENTS.length - momentsShown;
+
+  counter.textContent = `Showing ${momentsShown} of ${MOMENTS.length} moments`;
+
+  if (remaining <= 0) {
+    btn.disabled    = true;
+    btn.textContent = '✅ All memories loaded!';
+  } else {
+    btn.textContent = `+ Load ${Math.min(remaining, MOMENTS_PER_PAGE)} More Memories ✨`;
+  }
+}
+
+/* ============================================================
+   BIRTHDAY DATA
+   HOW TO EDIT:
+   - Each entry: { name, date, month, avatar (emoji), photos [] }
+   - photos: array of 3–6 items — emoji placeholders OR image URLs
+   ============================================================ */
+const STUDENTS = [
+  // JANUARY
+  { name: "Student 1",  date: "January 5",   month: 1,  avatar: "😊", photos: ["📸","📸","📸"] },
+  { name: "Student 2",  date: "January 20",  month: 1,  avatar: "😄", photos: ["📸","📸","📸"] },
+
+  // FEBRUARY
+  { name: "Student 3",  date: "February 8",  month: 2,  avatar: "😁", photos: ["📸","📸","📸"] },
+  { name: "Student 4",  date: "February 22", month: 2,  avatar: "🥰", photos: ["📸","📸","📸"] },
+
+  // MARCH
+  { name: "Student 5",  date: "March 3",     month: 3,  avatar: "😎", photos: ["📸","📸","📸"] },
+
+  // APRIL
+  { name: "Student 6",  date: "April 12",    month: 4,  avatar: "🤩", photos: ["📸","📸","📸"] },
+  { name: "Student 7",  date: "April 27",    month: 4,  avatar: "😇", photos: ["📸","📸","📸"] },
+
+  // MAY
+  { name: "Student 8",  date: "May 9",       month: 5,  avatar: "😍", photos: ["📸","📸","📸"] },
+  { name: "Student 9",  date: "May 19",      month: 5,  avatar: "🥳", photos: ["📸","📸","📸"] },
+
+  // JUNE
+  { name: "Student 10", date: "June 1",      month: 6,  avatar: "😜", photos: ["📸","📸","📸"] },
+  { name: "Student 11", date: "June 14",     month: 6,  avatar: "😏", photos: ["📸","📸","📸"] },
+  { name: "Student 12", date: "June 28",     month: 6,  avatar: "🤗", photos: ["📸","📸","📸"] },
+
+  // JULY
+  { name: "Student 13", date: "July 7",      month: 7,  avatar: "😆", photos: ["📸","📸","📸"] },
+
+  // AUGUST
+  { name: "Student 14", date: "August 11",   month: 8,  avatar: "🥺", photos: ["📸","📸","📸"] },
+  { name: "Student 15", date: "August 19",   month: 8,  avatar: "😋", photos: ["📸","📸","📸"] },
+  { name: "Student 16", date: "August 30",   month: 8,  avatar: "🤓", photos: ["📸","📸","📸"] },
+
+  // SEPTEMBER
+  { name: "Student 17", date: "September 5", month: 9,  avatar: "😌", photos: ["📸","📸","📸"] },
+  { name: "Student 18", date: "September 25",month: 9,  avatar: "🙃", photos: ["📸","📸","📸"] },
+
+  // OCTOBER
+  { name: "Student 19", date: "October 10",  month: 10, avatar: "😊", photos: ["📸","📸","📸"] },
+  { name: "Student 20", date: "October 26",  month: 10, avatar: "🤭", photos: ["📸","📸","📸"] },
+
+  // NOVEMBER
+  { name: "Student 21", date: "November 17", month: 11, avatar: "😸", photos: ["📸","📸","📸"] },
+
+  // DECEMBER
+  { name: "Student 22", date: "December 10", month: 12, avatar: "😴", photos: ["📸","📸","📸"] },
+  { name: "Student 23", date: "December 30", month: 12, avatar: "🎉", photos: ["📸","📸","📸"] },
+];
+
+/* Month names — do not change order */
+const MONTHS = [
+  "January","February","March","April",
+  "May","June","July","August",
+  "September","October","November","December"
+];
+
+/* ---- Render Birthday Board ---- */
+function renderBirthdayBoard() {
+  const grid = document.getElementById('bdayGrid');
+  grid.innerHTML = '';
+
+  MONTHS.forEach((monthName, idx) => {
+    const monthNum = idx + 1;
+    const kids = STUDENTS.filter(s => s.month === monthNum);
+    if (kids.length === 0) return; // skip empty months
+
+    const col = document.createElement('div');
+    col.className = 'bday-month';
+
+    const label = document.createElement('div');
+    label.className = 'bday-month-label';
+    label.textContent = monthName;
+    col.appendChild(label);
+
+    const list = document.createElement('div');
+    list.className = 'bday-students';
+
+    kids.forEach(student => {
+      const card = document.createElement('div');
+      card.className = 'bday-card';
+      card.setAttribute('role', 'button');
+      card.setAttribute('tabindex', '0');
+      card.setAttribute('aria-label', `${student.name}, birthday ${student.date}`);
+      card.onclick = () => openModal(student);
+      card.onkeydown = e => { if (e.key === 'Enter') openModal(student); };
+
+      card.innerHTML = `
+        <div class="bday-avatar">${student.avatar}</div>
+        <div class="bday-info">
+          <div class="bday-name">${student.name}</div>
+          <div class="bday-date">${student.date}</div>
+        </div>
+      `;
+      list.appendChild(card);
+    });
+
+    col.appendChild(list);
+    grid.appendChild(col);
+  });
+}
+
+/* ---- Modal ---- */
+function openModal(student) {
+  document.getElementById('modalAvatar').textContent = student.avatar;
+  document.getElementById('modalName').textContent = student.name;
+  document.getElementById('modalBday').textContent = '🎉 Birthday · ' + student.date;
+
+  const photosEl = document.getElementById('modalPhotos');
+  photosEl.innerHTML = '';
+  student.photos.forEach(p => {
+    const slot = document.createElement('div');
+    slot.className = 'modal-photo-slot';
+    /* If p starts with http, treat as image URL; otherwise use as emoji */
+    if (p.startsWith('http')) {
+      slot.innerHTML = `<img src="${p}" style="width:100%;height:100%;object-fit:cover;border-radius:8px;" alt="birthday photo"/>`;
+    } else {
+      slot.innerHTML = `<span>${p}</span><small>add photo</small>`;
+    }
+    photosEl.appendChild(slot);
+  });
+
+  document.getElementById('bdayModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('bdayModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+/* Close on overlay click */
+document.getElementById('bdayModal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+
+/* Close on Escape */
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeModal();
+});
+
+/* ---- Scroll Reveal ---- */
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.12 });
+
+function initReveal() {
+  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+}
+
+/* ---- Init ---- */
+renderBirthdayBoard();
+initReveal();
+loadMoreMoments(); /* load first batch of moments */
+</script>
+</body>
+</html>
