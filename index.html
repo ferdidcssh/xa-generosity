@@ -943,7 +943,7 @@ function updateLoadMoreBtn() {
 
   if (remaining <= 0) {
     btn.disabled    = true;
-    btn.textContent = '✅ All memories loaded!';
+    btn.textContent = 'All memories loaded!';
   } else {
     btn.textContent = `+ Load ${Math.min(remaining, MOMENTS_PER_PAGE)} More Memories ✨`;
   }
