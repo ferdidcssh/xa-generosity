@@ -255,6 +255,44 @@
     margin-top: 12px;
   }
 
+  /* Sort Toggle */
+  .sort-toggle-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 36px;
+    font-family: var(--font-hand);
+    font-size: 1rem;
+    color: #aaa;
+  }
+
+  .sort-toggle {
+    display: flex;
+    background: #fff;
+    border-radius: 50px;
+    padding: 4px;
+    box-shadow: 2px 3px 10px var(--shadow);
+    gap: 4px;
+  }
+
+  .sort-btn {
+    font-family: var(--font-hand);
+    font-size: 1rem;
+    padding: 7px 20px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    background: transparent;
+    color: #aaa;
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .sort-btn.active {
+    background: var(--pink);
+    color: #fff;
+  }
+
   /* Load More */
   .load-more-wrap {
     text-align: center;
@@ -627,6 +665,14 @@
     <h2 class="section-title">Class Moments </h2>
   </div>
 
+  <!-- Sort Toggle -->
+  <div class="sort-toggle-wrap">
+    <div class="sort-toggle">
+      <button class="sort-btn" id="btnLatest" onclick="setSort('latest')">🕐 Latest First</button>
+      <button class="sort-btn" id="btnOldest" onclick="setSort('oldest')">📅 Oldest First</button>
+    </div>
+  </div>
+
   <!-- Moments render here via JS -->
   <div class="moments-grid" id="momentsGrid"></div>
 
@@ -767,6 +813,7 @@
    HOW TO ADD A NEW MOMENT:
    Add a new object to the MOMENTS array below.
    Fields:
+     order     — chronological number (1 = earliest). Used for sort. REQUIRED.
      emoji     — shown as photo placeholder (e.g. "🎄")
      photoBg   — pastel hex for the photo background
      date      — label shown on polaroid corner (e.g. "Dec 2024")
@@ -777,6 +824,7 @@
    ============================================================ */
 const MOMENTS = [
   {
+    order:    1,
     emoji:    "🏫",
     photoBg:  "#FFE4EC",
     date:     "Day 1",
@@ -786,6 +834,7 @@ const MOMENTS = [
     image:    "img/firstdayschool.jpg",
   },
   {
+    order:    2,
     emoji:    "🎄",
     photoBg:  "#D4F4DD",
     date:     "Dec 2024",
@@ -795,6 +844,7 @@ const MOMENTS = [
     image : "img/christmas.jpg",
   },
   {
+    order:    3,
     emoji:    "🏆",
     photoBg:  "#FFF3CC",
     date:     "Sports Day",
@@ -804,6 +854,7 @@ const MOMENTS = [
     image: "img/performclassmeet.jpg"
   },
   {
+    order:    4,
     emoji:    "🏆",
     photoBg:  "#FFF3CC",
     date:     "Sports Day",
@@ -813,6 +864,7 @@ const MOMENTS = [
     image: "img/classmeet.jpg"
   },
   {
+    order:    5,
     emoji:    "🏆",
     photoBg:  "#FFF3CC",
     date:     "Outing Class Geo",
@@ -822,6 +874,7 @@ const MOMENTS = [
     image: "img/otwoutingclass.jpg"
   },
   {
+    order:    6,
     emoji:    "🏆",
     photoBg:  "#FFF3CC",
     date:     "Outing Class OJK",
@@ -831,6 +884,7 @@ const MOMENTS = [
     image: "img/outingojk.jpg"
   },
   {
+    order:    7,
     emoji:    "💝",
     photoBg:  "#FFE0D9",
     date:     "Feb 14",
@@ -840,6 +894,7 @@ const MOMENTS = [
     image: "img/valday.jpg" 
   },
   {
+    order:    8,
     emoji:    "🍱",
     photoBg:  "#E8E0FF",
     date:     "Feast Day",
@@ -850,6 +905,7 @@ const MOMENTS = [
   },
   /* ── ADD MORE MOMENTS BELOW THIS LINE ──────────────────────
   {
+    order:    9,           // ← naikkan angkanya tiap tambah momen baru
     emoji:    "🎭",
     photoBg:  "#D9F0FF",
     date:     "Apr 2025",
@@ -863,6 +919,35 @@ const MOMENTS = [
 /* How many moments to show per "page" — change freely */
 const MOMENTS_PER_PAGE = 5;
 let momentsShown = 0;
+let currentSort  = 'latest'; // default: latest first
+
+/* Returns MOMENTS sorted according to currentSort */
+function getSortedMoments() {
+  return [...MOMENTS].sort((a, b) =>
+    currentSort === 'latest' ? b.order - a.order : a.order - b.order
+  );
+}
+
+/* Switch sort order, reset grid, re-render from scratch */
+function setSort(order) {
+  if (order === currentSort) return;
+  currentSort = order;
+
+  /* update button states */
+  document.getElementById('btnLatest').classList.toggle('active', order === 'latest');
+  document.getElementById('btnOldest').classList.toggle('active', order === 'oldest');
+
+  /* clear grid and reset counter */
+  document.getElementById('momentsGrid').innerHTML = '';
+  momentsShown = 0;
+
+  /* re-enable load more button */
+  const btn = document.getElementById('btnLoadMore');
+  btn.disabled = false;
+
+  /* load first batch in new order */
+  loadMoreMoments(false); /* false = no entry animation on first batch */
+}
 
 /* Rotation cycles so each polaroid tilts a little differently */
 const ROTATIONS       = [-2, 1.5, -1, 2, -1.5, 0.8, -0.5, 1.2, -1.8, 0.5];
@@ -919,13 +1004,14 @@ function renderMoment(moment, index, animate) {
 }
 
 /* Load next batch of moments */
-function loadMoreMoments() {
+function loadMoreMoments(animate = true) {
+  const sorted  = getSortedMoments();
   const start   = momentsShown;
-  const end     = Math.min(momentsShown + MOMENTS_PER_PAGE, MOMENTS.length);
+  const end     = Math.min(momentsShown + MOMENTS_PER_PAGE, sorted.length);
   const isFirst = start === 0;
 
   for (let i = start; i < end; i++) {
-    renderMoment(MOMENTS[i], i, !isFirst);
+    renderMoment(sorted[i], i, animate && !isFirst);
   }
   momentsShown = end;
   updateLoadMoreBtn();
@@ -937,9 +1023,10 @@ function loadMoreMoments() {
 function updateLoadMoreBtn() {
   const btn       = document.getElementById('btnLoadMore');
   const counter   = document.getElementById('momentsCounter');
-  const remaining = MOMENTS.length - momentsShown;
+  const total     = MOMENTS.length;
+  const remaining = total - momentsShown;
 
-  counter.textContent = `Showing ${momentsShown} of ${MOMENTS.length} moments`;
+  counter.textContent = `Showing ${momentsShown} of ${total} moments`;
 
   if (remaining <= 0) {
     btn.disabled    = true;
@@ -1112,7 +1199,8 @@ function initReveal() {
 /* ---- Init ---- */
 renderBirthdayBoard();
 initReveal();
-loadMoreMoments(); /* load first batch of moments */
+document.getElementById('btnLatest').classList.add('active'); /* default: latest first */
+loadMoreMoments(false); /* load first batch of moments */
 </script>
 </body>
 </html>
